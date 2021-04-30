@@ -4,6 +4,15 @@
     align-items: $align;
 }
 
+@font-face {
+    font-family: "Roboto-Condensed";
+    src: url("./fonts/RobotoCondensed-Regular.ttf");
+}
+
+*{
+    font-family: Roboto-Condensed, sans-serif;
+}
+
 body, html{
     margin:0;
     padding:0;
@@ -21,9 +30,10 @@ body, html{
 }
 
 #wrapper{
-    @include flexCentering(center, center);
+    @include flexCentering(flex-start, center);
     position: absolute;
     background: rgba(0, 0, 0, 0.7);
+    flex-direction: column;
     top:0;
     left:0;
     height: 100%;
@@ -38,3 +48,65 @@ body, html{
     }
 }
 
+#searchVideosForm{
+    @include flexCentering(center, center);
+    flex-direction: column;
+    width: 75%;
+    p{
+        @include flexCentering(center, center);
+        width: 100%;
+    }
+    input[type="text"]{
+        min-width: 50%;
+        padding:10px 15px;
+        border: none;
+        outline:  none;
+        font-size: 19px;
+        border-radius: 50px 0 0 50px;
+    }
+    select{
+        border: none;
+        outline: none;
+        font-size: 19px;
+        background: #0b6854;
+        padding:9px 15px;
+        color: #fff;
+        border-radius:0 50px 50px 0;
+        cursor: pointer;
+        &:hover{
+            background: darken(#0b6854, 5%);
+        }
+    }
+    .btn{
+        border: none;
+        outline: none;
+        font-size: 14px;
+        background: #0b6854;
+        padding:10px 15px;
+        color: #fff;
+        border-radius:5px;
+        min-width: 10%;
+        cursor: pointer;
+        letter-spacing: 3px;
+        transition: background .3s;
+        margin:0 15px;
+        text-transform: uppercase;
+        &:hover{
+            background: darken(#0b6854, 5%);
+        }
+    }
+}
+
+//MEDIA QUERIES
+
+@media screen and (max-width: 768px){
+    #wrapper #logo{
+        min-width: 55%;
+    }
+    #searchVideosForm{
+        width: 100%;
+        .btn{
+            font-size: 16px;
+        }
+    }
+}

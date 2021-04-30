@@ -10,9 +10,22 @@
 </head>
 <body>
     <script src="./main.js"></script>
-    <video id="bg" src="./media/bg.mp4" autoplay="autoplay" muted="muted"></video>
+    <video id="bg" src="./media/bg.mp4" autoplay="autoplay" muted="muted" loop="loop"></video>
     <div id="wrapper">
         <div id="logo"></div>
+        <form id="searchVideosForm">
+            <p>
+                <input type="text" placeholder="Search for videos" />
+                <select>
+                    <option>YouTube</option>
+                    <option>Vimeo</option>
+                </select>
+            </p>
+            <p>
+                <button class="btn">Search</button>
+                <input class="btn" type="reset" value="Reset" />
+            </p>
+        </form>
     </div>
 </body>
 </html>
