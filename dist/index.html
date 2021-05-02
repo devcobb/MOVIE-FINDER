@@ -9,23 +9,23 @@
     <link rel="shortcut icon" href="./media/favicon.png">
 </head>
 <body>
-    <script src="./main.js"></script>
     <video id="bg" src="./media/bg.mp4" autoplay="autoplay" muted="muted" loop="loop"></video>
     <div id="wrapper">
         <div id="logo"></div>
-        <form id="searchVideosForm">
-            <p>
-                <input type="text" placeholder="Search for videos" />
+        <form autocomplete="off" id="searchVideosForm">
+            <p id="searchBarBox">
+                <input id="searchBar" type="text" placeholder="Search for videos" />
                 <select>
                     <option>YouTube</option>
                     <option>Vimeo</option>
                 </select>
             </p>
-            <p>
+            <p id="buttonsWrap">
                 <button class="btn">Search</button>
                 <input class="btn" type="reset" value="Reset" />
             </p>
         </form>
     </div>
+    <script src="./main.js"></script>
 </body>
 </html>

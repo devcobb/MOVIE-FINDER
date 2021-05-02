@@ -58,6 +58,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   flex-direction: column;
 }
 #searchVideosForm p {
@@ -67,15 +68,12 @@ body, html {
   width: 100%;
 }
 #searchVideosForm input[type=text] {
-  position: relative;
-  z-index: 3;
   min-width: 50%;
   padding: 10px 15px;
   border: none;
   outline: none;
   font-size: 19px;
   border-radius: 50px;
-  transition: all 0.3s;
 }
 #searchVideosForm #buttonsWrap {
   margin: 5% 0;
@@ -115,8 +113,8 @@ body, html {
   background: #095141;
 }
 #searchVideosForm #searchHistoryBox {
-  position: relative;
-  z-index: 2;
+  top: 36%;
+  position: absolute;
   background: #fff;
   width: 50%;
   border-radius: 0 0 50px 50px;
@@ -126,23 +124,19 @@ body, html {
 #searchVideosForm #searchHistoryBox .search {
   transition: all 0.3s;
   font-size: 18px;
-  padding: 10px 5px;
+  padding: 10px 0;
   border-bottom: 1px solid #d9d9d9;
   animation: showSearchResults 0.3s;
   animation-fill-mode: forwards;
-  cursor: pointer;
-}
-#searchVideosForm #searchHistoryBox .search:hover {
-  background: #efefef;
 }
 #searchVideosForm #searchHistoryBox .searchHidden {
   animation: hideSearchResults 0.3s;
   animation-fill-mode: forwards;
 }
 #searchVideosForm .fixCornersInput {
-  border-radius: 15px 15px 0 0 !important;
+  border-radius: 50px 50px 0 0;
 }
-#searchVideosForm .empty {
+#searchVideosForm .noSize {
   padding: 15px;
   height: 0;
 }
