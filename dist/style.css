@@ -9,12 +9,12 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
   width: 100%;
 }
 
 #bg {
-  position: fixed;
+  position: absolute;
   object-fit: cover;
   width: 100vw;
   height: 100vh;
@@ -96,6 +96,11 @@ body, html {
 #searchVideosForm select:hover {
   background: #095141;
 }
+#searchVideosForm a {
+  min-width: 10%;
+  margin: 0 15px;
+  display: block;
+}
 #searchVideosForm .btn {
   border: none;
   outline: none;
@@ -104,11 +109,10 @@ body, html {
   padding: 10px 15px;
   color: #fff;
   border-radius: 5px;
-  min-width: 10%;
+  width: 100%;
   cursor: pointer;
   letter-spacing: 3px;
   transition: background 0.3s;
-  margin: 0 15px;
   text-transform: uppercase;
 }
 #searchVideosForm .btn:hover {
@@ -151,6 +155,24 @@ body, html {
   height: 150px;
 }
 
+#searchVideos {
+  position: absolute;
+  top: 75%;
+  width: 100%;
+  height: 0%;
+  background: #ffffff;
+  transition: all 0.3s;
+}
+#searchVideos img {
+  margin-top: -5%;
+  width: 100%;
+  height: 75%;
+}
+
+.searchVideosFullSize {
+  height: 50% !important;
+}
+
 @keyframes showSearchResults {
   from {
     opacity: 0;
@@ -167,6 +189,22 @@ body, html {
     opacity: 0;
   }
 }
+@media screen and (max-width: 1600px) {
+  #searchVideos img {
+    margin-top: -6%;
+  }
+}
+@media screen and (max-width: 1250px) {
+  #searchVideos img {
+    margin-top: -11%;
+  }
+}
+@media screen and (max-width: 900px) {
+  #searchVideos img {
+    margin-top: -15%;
+    height: 50%;
+  }
+}
 @media screen and (max-width: 768px) {
   #wrapper #logo {
     min-width: 55%;
@@ -177,6 +215,14 @@ body, html {
   }
   #searchVideosForm .btn {
     font-size: 16px;
+  }
+  #searchVideosForm select {
+    margin: 5% 0;
+  }
+
+  #searchVideos img {
+    margin-top: -15%;
+    height: 15%;
   }
 }
 
