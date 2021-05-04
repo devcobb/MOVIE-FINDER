@@ -72,39 +72,64 @@ function hideSearchHistory() {
 }
 
 function searchForVideos(e) {
-    const box = document.querySelector("#searchVideos");
-
     e.preventDefault();
-    box.className = "searchVideosFullSize";
 
-    setTimeout(() => {
-        box.scrollIntoView({ behavior: "smooth" });
-    }, 300);
+    if(document.querySelector("#searchBar").value !== ""){
+        const box = document.querySelector("#searchVideos");
 
-    determineVideosAPI();
-    //https://www.googleapis.com/youtube/v3/search
+        box.className = "searchVideosFullSize";
+        setTimeout(() => {
+            box.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+    
+        determineVideosAPI();
+    }
+
 }
 
 function determineVideosAPI() {
     const sel = document.querySelector("#searchVideosForm select").value;
     let searchTerm = document.querySelector("#searchBar").value;
+    
+    //Clear the box after previous searches
+    document.querySelector("#videosWrap").innerHTML = "";
     sel === "YouTube" ? searchForYTVideos(searchTerm) : searchForVimeoVideos(searchTerm);
 }
 
 async function searchForYTVideos(searchTerm){
+    showLoadingScreen();
     let key = "AIzaSyBdi6o7vIJpBcufoIc2ZQiIpNRfhS59FEw";
-    
-    let data = await fetch(`https://youtube.googleapis.com/youtube/v3/search?&part=snippet&q=${searchTerm}&key=${key}`);
+    let data = await fetch(`https://youtube.googleapis.com/youtube/v3/search?&key=${key}&part=snippet&type=video&q=${searchTerm}&maxResults=12`);
     let fetched = await data.json();
+
     await loadYTVideos(fetched);
 }
 
 function loadYTVideos(videos){
     videos.items.forEach(video => {
-        document.querySelector("#searchVideos").innerHTML += `<div class="videoBox"><iframe src="https://www.youtube.com/embed/${video.id.videoId}"></iframe></div>`
+        document.querySelector("#videosWrap").innerHTML += `<div class="video"><img src="${video.snippet.thumbnails.medium.url}" /></div>`
     });
+
+    hideLoadingScreen();
 }
 
-function searchForVimeoVideos(searchTerm) {
+function loadVimeoVideos(videos){
+    videos.data.forEach(video => {
+        document.querySelector("#videosWrap").innerHTML += `<div class="video"><img src="${video.pictures.sizes[3].link}" /></div>`
+    });
 
+    hideLoadingScreen();
+}
+
+async function searchForVimeoVideos(searchTerm) {
+    showLoadingScreen();
+    let data = await fetch(`https://api.vimeo.com/videos?query=${searchTerm}?total=12&per_page=12`, 
+    {
+        headers: {
+            "Authorization": "basic N2M5YzI2NTVlNmM1NTVmZTJjNjdlMDYxMzNkYzYyMTVjZjJmOTcxNzpzRlFyUzNWMTBNUnpYTXkzR1A2enZGc0NkUWhFMHZpbUs1M1Bua0lLU3VPS3JxOG5QSGg0NmVpY1doeDBCd1owRC9yZ1IrbW9lVkgyaUFsUmUzNFJadEkrN1liVzRlMEVrVnJscHY1a2VFTUZGdTVmRitNUlUvQ20ydng0aXJnUQ=="
+        }
+    });
+    let fetched = await data.json();
+
+    await loadVimeoVideos(fetched)
 }

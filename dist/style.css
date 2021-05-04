@@ -16,8 +16,8 @@ body, html {
 #bg {
   position: absolute;
   object-fit: cover;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
 }
@@ -157,18 +157,70 @@ body, html {
 
 #searchVideos {
   position: absolute;
+  z-index: 2;
   top: 75%;
   width: 100%;
   height: 0%;
-  background: #ffffff;
+  background-color: #ffffff;
   transition: all 0.3s;
+  text-align: center;
 }
 #searchVideos img {
   margin-top: -5%;
   width: 100%;
   height: 75%;
 }
+#searchVideos #videosWrap {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  display: none;
+  width: 100%;
+  flex-wrap: wrap;
+  min-height: 100%;
+  margin-top: -12.5%;
+  padding: 0 0 5% 0;
+}
+#searchVideos .video {
+  z-index: 1;
+  position: relative;
+  width: 320px;
+  height: 180px;
+  margin: 2.5%;
+  cursor: pointer;
+}
+#searchVideos .video img {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s;
+}
+#searchVideos .video img:hover {
+  opacity: 0.7;
+}
+#searchVideos .video::after {
+  z-index: -1;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  content: "";
+  background: #0b6854;
+  width: 100%;
+  height: 100%;
+  transform: translate(10%, 10%);
+}
+#searchVideos img {
+  width: 100%;
+  height: 100%;
+}
 
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 .searchVideosFullSize {
   height: 50% !important;
 }
