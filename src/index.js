@@ -6,10 +6,21 @@ let data = {
     let bar = document.querySelector("#searchBar");
     let btn = document.querySelector("#searchForVideos");
 
+    checkForSearchHistory();
     bar.addEventListener("focus", showSearchHistory);
     bar.addEventListener("blur", hideSearchHistory);
     btn.addEventListener("click", searchForVideos)
 })();
+
+function saveSearchHistory(){
+    localStorage.setItem("searchHistory", JSON.stringify(data.searchHistory));
+}
+
+function checkForSearchHistory(){
+    if(localStorage.getItem("searchHistory") !== null){
+        data.searchHistory = JSON.parse(localStorage.getItem("searchHistory"));
+    }
+}
 
 function showSearchHistory() {
     if (data.searchHistory.length > 0 && document.querySelector("#searchBar").value === "") {
@@ -78,8 +89,23 @@ function searchForVideos(e) {
     if(bar !== ""){
         const box = document.querySelector("#searchVideos");
         box.className = "searchVideosFullSize";
-        data.searchHistory.push(bar);
 
+        if(data.searchHistory.length === 3){
+            let newSearchHistory = [];
+            
+            data.searchHistory.push(bar);
+            for(let i = 1; i < data.searchHistory.length; i++ ){
+                newSearchHistory.push( data.searchHistory[i] );
+            }
+
+            console.log(data.searchHistory, newSearchHistory)
+            data.searchHistory = newSearchHistory
+        }
+        else{
+            data.searchHistory.push(bar);
+        }
+
+        saveSearchHistory();
         determineVideosAPI();
     }
 
@@ -105,7 +131,6 @@ async function searchForYTVideos(searchTerm){
 
 function loadYTVideos(videos){
     videos.items.forEach(video => {
-        console.log(video)
         document.querySelector("#videosWrap").innerHTML += 
             `<div class="video">
                 <img src="${video.snippet.thumbnails.medium.url}" />
@@ -118,7 +143,6 @@ function loadYTVideos(videos){
 
 function loadVimeoVideos(videos){
     videos.data.forEach(video => {
-        console.log(video)
         document.querySelector("#videosWrap").innerHTML += 
             `<div class="video">
                 <img src="${video.pictures.sizes[3].link}" />
