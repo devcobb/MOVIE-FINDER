@@ -72,16 +72,14 @@ function hideSearchHistory() {
 }
 
 function searchForVideos(e) {
+    let bar = document.querySelector("#searchBar").value;
     e.preventDefault();
 
-    if(document.querySelector("#searchBar").value !== ""){
+    if(bar !== ""){
         const box = document.querySelector("#searchVideos");
-
         box.className = "searchVideosFullSize";
-        setTimeout(() => {
-            box.scrollIntoView({ behavior: "smooth" });
-        }, 300);
-    
+        data.searchHistory.push(bar);
+
         determineVideosAPI();
     }
 
@@ -107,7 +105,12 @@ async function searchForYTVideos(searchTerm){
 
 function loadYTVideos(videos){
     videos.items.forEach(video => {
-        document.querySelector("#videosWrap").innerHTML += `<div class="video"><img src="${video.snippet.thumbnails.medium.url}" /></div>`
+        console.log(video)
+        document.querySelector("#videosWrap").innerHTML += 
+            `<div class="video">
+                <img src="${video.snippet.thumbnails.medium.url}" />
+                <div class="videoTitle">${video.snippet.title}</div>
+             </div>`
     });
 
     hideLoadingScreen();
@@ -115,7 +118,12 @@ function loadYTVideos(videos){
 
 function loadVimeoVideos(videos){
     videos.data.forEach(video => {
-        document.querySelector("#videosWrap").innerHTML += `<div class="video"><img src="${video.pictures.sizes[3].link}" /></div>`
+        console.log(video)
+        document.querySelector("#videosWrap").innerHTML += 
+            `<div class="video">
+                <img src="${video.pictures.sizes[3].link}" />
+                <div class="videoTitle">${video.name}</div>
+             </div>`
     });
 
     hideLoadingScreen();
@@ -132,4 +140,22 @@ async function searchForVimeoVideos(searchTerm) {
     let fetched = await data.json();
 
     await loadVimeoVideos(fetched)
+}
+
+function showLoadingScreen(){
+    const box = document.createElement("div");
+    box.id = "loadingScreen";
+
+    box.innerHTML = `<div id="round"></div>`
+    document.body.appendChild(box);
+    document.body.className = "hideScroll";
+    document.querySelector("#videosWrap").style.display = "flex";
+}
+
+function hideLoadingScreen(){
+    const box = document.querySelector("#searchVideos");
+    document.querySelector("#loadingScreen").remove();
+    document.body.className = "showScroll";
+
+    box.scrollIntoView({ behavior: "smooth" });
 }

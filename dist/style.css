@@ -158,14 +158,14 @@ body, html {
 #searchVideos {
   position: absolute;
   z-index: 2;
-  top: 75%;
+  top: 95%;
   width: 100%;
   height: 0%;
   background-color: #ffffff;
   transition: all 0.3s;
   text-align: center;
 }
-#searchVideos img {
+#searchVideos #wave {
   margin-top: -5%;
   width: 100%;
   height: 75%;
@@ -182,16 +182,24 @@ body, html {
   padding: 0 0 5% 0;
 }
 #searchVideos .video {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
   z-index: 1;
   position: relative;
-  width: 320px;
-  height: 180px;
   margin: 2.5%;
   cursor: pointer;
 }
+#searchVideos .video .videoTitle {
+  background: #0a5a49;
+  color: #fff;
+  padding: 10px 0;
+  width: 320px;
+}
 #searchVideos .video img {
-  width: 100%;
-  height: 100%;
+  max-width: 320px;
+  max-height: 180px;
   transition: all 0.3s;
 }
 #searchVideos .video img:hover {
@@ -211,6 +219,48 @@ body, html {
 #searchVideos img {
   width: 100%;
   height: 100%;
+}
+
+#loadingScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  background-color: #0b6854;
+  height: 100%;
+  width: 100%;
+  opacity: 1;
+  transition: all 0.5s;
+}
+#loadingScreen #round {
+  width: 50px;
+  height: 50px;
+  border: 10px solid #fff;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.5s;
+  animation: loading 1s;
+  animation-iteration-count: infinite;
+}
+#loadingScreen #round::after {
+  content: "";
+  background-color: #0b6854;
+  width: 15px;
+  height: 155px;
+  position: absolute;
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.hideScroll {
+  overflow-y: hidden;
+}
+
+.showScroll {
+  overflow-y: auto;
 }
 
 @keyframes loading {
@@ -242,17 +292,22 @@ body, html {
   }
 }
 @media screen and (max-width: 1600px) {
-  #searchVideos img {
+  #searchVideos #wave {
     margin-top: -6%;
   }
 }
 @media screen and (max-width: 1250px) {
-  #searchVideos img {
+  #searchVideos #wave {
     margin-top: -11%;
   }
 }
+@media screen and (max-width: 1080px) {
+  .video::after {
+    display: none;
+  }
+}
 @media screen and (max-width: 900px) {
-  #searchVideos img {
+  #searchVideos #wave {
     margin-top: -15%;
     height: 50%;
   }
@@ -272,7 +327,7 @@ body, html {
     margin: 5% 0;
   }
 
-  #searchVideos img {
+  #searchVideos #wave {
     margin-top: -15%;
     height: 15%;
   }
