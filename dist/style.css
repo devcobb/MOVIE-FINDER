@@ -96,28 +96,6 @@ body, html {
 #searchVideosForm select:hover {
   background: #095141;
 }
-#searchVideosForm a {
-  min-width: 10%;
-  margin: 0 15px;
-  display: block;
-}
-#searchVideosForm .btn {
-  border: none;
-  outline: none;
-  font-size: 14px;
-  background: #0b6854;
-  padding: 10px 15px;
-  color: #fff;
-  border-radius: 5px;
-  width: 100%;
-  cursor: pointer;
-  letter-spacing: 3px;
-  transition: background 0.3s;
-  text-transform: uppercase;
-}
-#searchVideosForm .btn:hover {
-  background: #095141;
-}
 #searchVideosForm #searchHistoryBox {
   position: relative;
   z-index: 2;
@@ -155,12 +133,34 @@ body, html {
   height: 150px;
 }
 
+a {
+  min-width: 10%;
+  margin: 0 15px;
+  display: block;
+}
+a .btn {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: #0b6854;
+  padding: 10px 15px;
+  color: #fff;
+  border-radius: 5px;
+  width: 100%;
+  cursor: pointer;
+  letter-spacing: 3px;
+  transition: background 0.3s;
+  text-transform: uppercase;
+}
+a .btn:hover {
+  background: #095141;
+}
+
 #searchVideos {
   position: absolute;
   z-index: 2;
   top: 95%;
   width: 100%;
-  height: 0%;
   background-color: #ffffff;
   transition: all 0.3s;
   text-align: center;
@@ -263,6 +263,73 @@ body, html {
   overflow-y: auto;
 }
 
+#previewVideoBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  flex-wrap: wrap;
+  z-index: 999;
+  background: #fff;
+  width: 100%;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+#previewVideoBox #videoBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  min-width: 80%;
+  height: 100%;
+}
+#previewVideoBox #videoBox iframe {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 85%;
+}
+#previewVideoBox #videoBtnsWrap {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+#previewVideoBox #videoBtnsWrap .videoBtn {
+  color: #0b6854;
+  cursor: pointer;
+}
+#previewVideoBox #videoBtnsWrap .videoBtn:hover {
+  text-decoration: underline;
+}
+#previewVideoBox #videoInformation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 20%;
+  height: 100%;
+  color: #000;
+  background-image: url("./media/favicon.png");
+  background-repeat: no-repeat;
+  background-position: 0% 0%;
+  background-size: 70%;
+}
+#previewVideoBox #videoInformation a {
+  margin: 5% 0;
+}
+#previewVideoBox #videoInformation #videoTitle, #previewVideoBox #videoInformation #videoDescription {
+  padding: 0 5%;
+}
+
+.emptyPreviewVideoBox {
+  height: 0;
+}
+
+.fullPreviewVideoBox {
+  height: 100%;
+}
+
 @keyframes loading {
   from {
     transform: rotate(0deg);
@@ -271,8 +338,14 @@ body, html {
     transform: rotate(360deg);
   }
 }
+.searchVideosEmpty {
+  height: 0;
+  overflow: hidden;
+}
+
 .searchVideosFullSize {
-  height: 50% !important;
+  height: 50%;
+  overflow: visible;
 }
 
 @keyframes showSearchResults {
@@ -299,6 +372,27 @@ body, html {
 @media screen and (max-width: 1250px) {
   #searchVideos #wave {
     margin-top: -11%;
+  }
+
+  #previewVideoBox {
+    flex-direction: column;
+  }
+  #previewVideoBox .previewWrap:first-of-type {
+    width: 70%;
+    padding: 0 1%;
+  }
+  #previewVideoBox .previewWrap:last-of-type {
+    width: 30%;
+    padding: 0 1%;
+  }
+  #previewVideoBox #videoBox {
+    width: 100%;
+    height: 80%;
+  }
+  #previewVideoBox #videoInformation {
+    flex-direction: row;
+    width: 100%;
+    height: 20%;
   }
 }
 @media screen and (max-width: 1080px) {
@@ -330,6 +424,14 @@ body, html {
   #searchVideos #wave {
     margin-top: -15%;
     height: 15%;
+  }
+
+  #videoTitle, #videoDescription {
+    display: none;
+  }
+
+  #previewVideoBox .previewWrap:last-of-type {
+    width: 100%;
   }
 }
 

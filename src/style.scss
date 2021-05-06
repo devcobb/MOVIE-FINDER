@@ -95,29 +95,7 @@ body, html{
         &:hover{
             background: darken($green, 5%);
         }
-    }
-    a{
-        min-width: 10%;
-        margin:0 15px;
-        display: block;
-    }
-    .btn{
-        border: none;
-        outline: none;
-        font-size: 14px;
-        background: $green;
-        padding:10px 15px;
-        color: #fff;
-        border-radius:5px;
-        width: 100%;
-        cursor: pointer;
-        letter-spacing: 3px;
-        transition: background .3s;
-        text-transform: uppercase;
-        &:hover{
-            background: darken($green, 5%);
-        }
-    }
+    } 
     #searchHistoryBox{
         position: relative;
         z-index:2;
@@ -156,12 +134,34 @@ body, html{
     }
 }
 
+a{
+    min-width: 10%;
+    margin:0 15px;
+    display: block;
+    .btn{
+        border: none;
+        outline: none;
+        font-size: 14px;
+        background: $green;
+        padding:10px 15px;
+        color: #fff;
+        border-radius:5px;
+        width: 100%;
+        cursor: pointer;
+        letter-spacing: 3px;
+        transition: background .3s;
+        text-transform: uppercase;
+        &:hover{
+            background: darken($green, 5%);
+        }
+    }
+}
+
 #searchVideos{
     position: absolute;
     z-index: 2;
     top: 95%;
     width: 100%;
-    height:0%;
     background-color: #ffffff;
     transition: all .3s;
     text-align: center;
@@ -258,6 +258,66 @@ body, html{
     overflow-y: auto;
 }
 
+#previewVideoBox{
+    @include flexCentering(center, center);
+    position: absolute;
+    flex-wrap: wrap;
+    z-index: 999;
+    background: #fff;
+    width: 100%;
+    transition: all .3s;
+    overflow: hidden;
+    #videoBox{
+        @include flexCentering(center, center);
+        background: #000;
+        min-width: 80%;
+        height: 100%;
+        iframe{
+            border:none;
+            outline: none; 
+            width: 100%;
+            height: 85%;
+        }
+    }
+    #videoBtnsWrap{
+        @include flexCentering(space-around, center);
+        width: 100%;
+        .videoBtn{
+            color: $green;
+            cursor: pointer;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+    }
+    #videoInformation{
+        @include flexCentering(center, center);
+        flex-direction: column;
+        width: 20%;
+        height: 100%;
+        color: #000;
+        background-image: url("./media/favicon.png");
+        background-repeat: no-repeat;
+        background-position: 0% 0%;
+        background-size: 70%;
+        a{
+            margin:5% 0;
+        }
+        #videoTitle, #videoDescription{
+            padding:0 5%;
+        }
+    }
+}
+
+.emptyPreviewVideoBox{
+    height: 0;
+}
+
+.fullPreviewVideoBox{
+    height: 100%;
+}
+
+
   @keyframes loading {
     from {
       transform: rotate(0deg);
@@ -267,8 +327,14 @@ body, html{
     }
   }
 
+.searchVideosEmpty{
+    height: 0;;
+    overflow: hidden; 
+}
+
 .searchVideosFullSize{
-    height: 50% !important;
+    height: 50%;
+    overflow: visible;
 }
 
 @keyframes showSearchResults{
@@ -292,6 +358,26 @@ body, html{
 @media screen and (max-width: 1250px){
     #searchVideos #wave{
         margin-top:-11%;
+    }
+    #previewVideoBox{
+        flex-direction: column;
+        .previewWrap:first-of-type{
+            width: 70% ;
+            padding:0 1%;
+        }
+        .previewWrap:last-of-type{
+            width: 30% ;
+            padding:0 1%;
+        }
+        #videoBox{
+            width: 100%;
+            height: 80%;
+        }
+        #videoInformation{
+            flex-direction: row;
+            width: 100%;
+            height: 20%;
+        }
     }
 }
 
@@ -326,5 +412,13 @@ body, html{
     #searchVideos #wave{
         margin-top:-15%;
         height: 15%;
+    }
+    #videoTitle, #videoDescription{
+        display: none;
+    }
+    #previewVideoBox{
+        .previewWrap:last-of-type{
+            width: 100%;
+        }
     }
 }

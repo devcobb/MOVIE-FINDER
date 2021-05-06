@@ -26,9 +26,27 @@
             </p>
         </form>
     </div>
-    <div id="searchVideos">
+    <div id="searchVideos" class="searchVideosEmpty">
         <img id="wave" src="./media/wave.png">
         <div id="videosWrap"></div>
+    </div>
+    <div id="previewVideoBox" class="emptyPreviewVideoBox">
+        <div id="videoBox">
+            <iframe src=""></iframe>
+        </div>
+        <div id="videoInformation">
+            <div class="previewWrap">
+                <div id="videoTitle"><h2></h2></div>
+                <div id="videoDescription"><p></p></div>
+            </div>
+            <div class="previewWrap">
+                <a href="#"><button class="btn">Return to search screen</button></a>
+                <div id="videoBtnsWrap">
+                    <div class="videoBtn">Previous video</div>
+                    <div class="videoBtn">Next video</div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./main.js"></script>
 </body>

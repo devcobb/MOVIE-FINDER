@@ -1,5 +1,6 @@
 let data = {
-    searchHistory: []
+    searchHistory: [],
+    fetchedVideos: []
 };
 
 (function init() {
@@ -98,7 +99,6 @@ function searchForVideos(e) {
                 newSearchHistory.push( data.searchHistory[i] );
             }
 
-            console.log(data.searchHistory, newSearchHistory)
             data.searchHistory = newSearchHistory
         }
         else{
@@ -126,13 +126,15 @@ async function searchForYTVideos(searchTerm){
     let data = await fetch(`https://youtube.googleapis.com/youtube/v3/search?&key=${key}&part=snippet&type=video&q=${searchTerm}&maxResults=12`);
     let fetched = await data.json();
 
+  
     await loadYTVideos(fetched);
 }
 
 function loadYTVideos(videos){
+    data.fetchedVideos = videos.items;
     videos.items.forEach(video => {
         document.querySelector("#videosWrap").innerHTML += 
-            `<div class="video">
+            `<div data-id="${video.id.videoId}" class="video">
                 <img src="${video.snippet.thumbnails.medium.url}" />
                 <div class="videoTitle">${video.snippet.title}</div>
              </div>`
@@ -142,9 +144,10 @@ function loadYTVideos(videos){
 }
 
 function loadVimeoVideos(videos){
+    data.fetchedVideos = videos.data;
     videos.data.forEach(video => {
         document.querySelector("#videosWrap").innerHTML += 
-            `<div class="video">
+            `<div data-id="${video.uri.split("/")[2]}" class="video">
                 <img src="${video.pictures.sizes[3].link}" />
                 <div class="videoTitle">${video.name}</div>
              </div>`
@@ -182,4 +185,48 @@ function hideLoadingScreen(){
     document.body.className = "showScroll";
 
     box.scrollIntoView({ behavior: "smooth" });
+
+    document.querySelectorAll(".video").forEach(vid => {
+        vid.addEventListener("click", e => previewVideo(e))
+    })
+}
+
+function previewVideo(e){
+    //Basic preperations
+    let previewedVideo = null;
+    const box = document.querySelector("#previewVideoBox");
+
+    if(data.fetchedVideos[0].hasOwnProperty("id")){
+        previewedVideo = data.fetchedVideos.filter(vid => vid.id.videoId === e.currentTarget.dataset.id)[0]
+    }
+    else{
+        previewedVideo = data.fetchedVideos.filter(vid => vid.uri.split("/")[2] === e.currentTarget.dataset.id)[0]
+    }
+
+    document.querySelector("#searchVideos").className = "searchVideosEmpty";
+    document.querySelector("#previewVideoBox").className = "fullPreviewVideoBox";
+
+
+    loadPreviewVideo(previewedVideo);
+    setButtons();
+}
+
+function loadPreviewVideo(video){
+    if(!video.hasOwnProperty("link")){
+        document.querySelector("#previewVideoBox iframe").src = `https://www.youtube.com/embed/${video.id.videoId}`;
+        document.querySelector("#videoTitle h2").textContent = video.snippet.title
+        document.querySelector("#videoDescription p").textContent = video.snippet.description
+    }
+    else{
+        document.querySelector("#videoBox").innerHTML = video.embed.html;
+        document.querySelector("#videoTitle h2").textContent = video.name
+        document.querySelector("#videoDescription p").textContent = video.description
+    }
+}
+
+function setButtons(){
+    document.querySelector("#videoInformation .btn").addEventListener("click", () => {
+        document.querySelector("#previewVideoBox").className = "emptyPreviewVideoBox"; 
+        document.querySelector("#searchVideos").className = "searchVideosFullSize"
+    });
 }
