@@ -122,6 +122,8 @@ function determineVideosAPI() {
 
 async function searchForYTVideos(searchTerm){
     showLoadingScreen();
+    document.querySelector("#videosWrap").style.display = "flex";
+    
     let key = "AIzaSyBdi6o7vIJpBcufoIc2ZQiIpNRfhS59FEw";
     let data = await fetch(`https://youtube.googleapis.com/youtube/v3/search?&key=${key}&part=snippet&type=video&q=${searchTerm}&maxResults=12`);
     let fetched = await data.json();
@@ -140,6 +142,11 @@ function loadYTVideos(videos){
              </div>`
     });
 
+    document.querySelector("#searchVideos").scrollIntoView({ behavior: "smooth" });
+
+    document.querySelectorAll(".video").forEach(vid => {
+        vid.addEventListener("click", e => previewVideo(e))
+    });
     hideLoadingScreen();
 }
 
@@ -153,11 +160,18 @@ function loadVimeoVideos(videos){
              </div>`
     });
 
+    document.querySelector("#searchVideos").scrollIntoView({ behavior: "smooth" });
+
+    document.querySelectorAll(".video").forEach(vid => {
+        vid.addEventListener("click", e => previewVideo(e))
+    });
     hideLoadingScreen();
 }
 
 async function searchForVimeoVideos(searchTerm) {
     showLoadingScreen();
+    document.querySelector("#videosWrap").style.display = "flex";
+    
     let data = await fetch(`https://api.vimeo.com/videos?query=${searchTerm}?total=12&per_page=12`, 
     {
         headers: {
@@ -174,21 +188,13 @@ function showLoadingScreen(){
     box.id = "loadingScreen";
 
     box.innerHTML = `<div id="round"></div>`
-    document.body.appendChild(box);
+    document.querySelector("#loadingScreen") === null ? document.body.appendChild(box) : null;
     document.body.className = "hideScroll";
-    document.querySelector("#videosWrap").style.display = "flex";
 }
 
 function hideLoadingScreen(){
-    const box = document.querySelector("#searchVideos");
-    document.querySelector("#loadingScreen").remove();
+    document.querySelector("#loadingScreen") !== null ?document.querySelector("#loadingScreen").remove() : null;
     document.body.className = "showScroll";
-
-    box.scrollIntoView({ behavior: "smooth" });
-
-    document.querySelectorAll(".video").forEach(vid => {
-        vid.addEventListener("click", e => previewVideo(e))
-    })
 }
 
 function previewVideo(e){
@@ -208,25 +214,106 @@ function previewVideo(e){
 
 
     loadPreviewVideo(previewedVideo);
-    setButtons();
+    if(document.querySelector(".videoBtn").dataset.eventListenerSet !== "true"){
+        console.log("hi")
+        setButtons()
+    }
 }
 
 function loadPreviewVideo(video){
-    if(!video.hasOwnProperty("link")){
-        document.querySelector("#previewVideoBox iframe").src = `https://www.youtube.com/embed/${video.id.videoId}`;
-        document.querySelector("#videoTitle h2").textContent = video.snippet.title
-        document.querySelector("#videoDescription p").textContent = video.snippet.description
+    if(video !== null){
+        if(!video.hasOwnProperty("link")){
+            document.querySelector("#previewVideoBox iframe").src = `https://www.youtube.com/embed/${video.id.videoId}`;
+            document.querySelector("#previewVideoBox iframe").dataset.id = video.id.videoId;
+            document.querySelector("#videoTitle h2").textContent = video.snippet.title
+            document.querySelector("#videoDescription p").textContent = video.snippet.description
+        }
+        else{
+            document.querySelector("#videoBox").innerHTML = video.embed.html;
+            document.querySelector("#previewVideoBox iframe").dataset.id = video.uri.split("/")[2];
+            document.querySelector("#videoTitle h2").textContent = video.name
+            document.querySelector("#videoDescription p").textContent = video.description
+        }
+    }
+
+    checkForArrowStatus(video)
+}
+
+function checkForArrowStatus(video){
+    if(data.fetchedVideos.indexOf(video) === 0){
+        if(!document.querySelectorAll(".videoBtn")[0].className.includes("disableBtn")){
+            document.querySelectorAll(".videoBtn")[0].className += " disableBtn";
+        }
+    }
+    else if(data.fetchedVideos.indexOf(video) === data.fetchedVideos.length - 1){
+        if(!document.querySelectorAll(".videoBtn")[1].className.includes("disableBtn")){
+            document.querySelectorAll(".videoBtn")[1].className += " disableBtn";
+        }
     }
     else{
-        document.querySelector("#videoBox").innerHTML = video.embed.html;
-        document.querySelector("#videoTitle h2").textContent = video.name
-        document.querySelector("#videoDescription p").textContent = video.description
+        if( document.querySelectorAll(".videoBtn")[0].className.includes("disableBtn") || document.querySelectorAll(".videoBtn")[1].className.includes("disableBtn") ){
+            document.querySelectorAll(".videoBtn").forEach(btn => btn.className = "videoBtn");
+        }
     }
 }
 
 function setButtons(){
-    document.querySelector("#videoInformation .btn").addEventListener("click", () => {
-        document.querySelector("#previewVideoBox").className = "emptyPreviewVideoBox"; 
-        document.querySelector("#searchVideos").className = "searchVideosFullSize"
+    document.querySelector("#videoInformation .btn").addEventListener("click", returnToSearchResults)
+    document.querySelectorAll(".videoBtn").forEach(btn => {
+        btn.dataset.eventListenerSet = "true";
+        btn.addEventListener("click", e => {
+            let video = null;
+            if(data.fetchedVideos[0].hasOwnProperty("id")){
+                video = data.fetchedVideos.filter(vid => vid.id.videoId === document.querySelector("#videoBox iframe").dataset.id)[0];
+            }
+            else{
+                video = data.fetchedVideos.filter(vid => vid.uri.split("/")[2] === document.querySelector("#videoBox iframe").dataset.id)[0]
+            }
+        
+            changePreviewVideo(e, video)
+        });
     });
+}
+
+function returnToSearchResults(){
+    document.querySelector("#previewVideoBox").className = "emptyPreviewVideoBox"; 
+    document.querySelector("#searchVideos").className = "searchVideosFullSize";
+
+    setTimeout( () => {
+        document.querySelector("#searchVideos").scrollIntoView({ behavior: "smooth" });
+    }, 300);
+}
+
+function changePreviewVideo(e, loadedVid){
+    let determineVideo = null;
+    if(e.target.dataset.action === "next"){
+        if(data.fetchedVideos[0].hasOwnProperty("id")){
+            if(data.fetchedVideos[data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.id.videoId === loadedVid.id.videoId)[0]) + 1] !== undefined){
+                determineVideo = data.fetchedVideos[data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.id.videoId === loadedVid.id.videoId)[0]) + 1]
+            }
+        }
+        else{
+            if(data.fetchedVideos[data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.uri.split("/")[2] === loadedVid.uri.split("/")[2])[0]) + 1] !== undefined){
+                determineVideo = data.fetchedVideos[data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.uri.split("/")[2] === loadedVid.uri.split("/")[2])[0]) + 1]
+            }
+        }
+    }
+    else if(e.target.dataset.action === "prev"){
+        if(data.fetchedVideos[0].hasOwnProperty("id")){
+            if(data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.id.videoId === loadedVid.id.videoId)[0]) - 1 >= 0){
+                determineVideo = data.fetchedVideos[data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.id.videoId === loadedVid.id.videoId)[0]) - 1]
+            }
+        }
+        else{
+            if(data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.uri.split("/")[2] === loadedVid.uri.split("/")[2])[0]) - 1 >= 0 ){
+                determineVideo = data.fetchedVideos[data.fetchedVideos.indexOf(data.fetchedVideos.filter(vid => vid.uri.split("/")[2] === loadedVid.uri.split("/")[2])[0]) - 1]
+            }
+        }
+    }
+    
+    showLoadingScreen();
+    loadPreviewVideo(determineVideo);
+    document.querySelector("#previewVideoBox iframe").onload = () => {
+        hideLoadingScreen();
+    }
 }

@@ -302,6 +302,9 @@ a .btn:hover {
 #previewVideoBox #videoBtnsWrap .videoBtn:hover {
   text-decoration: underline;
 }
+#previewVideoBox #videoBtnsWrap .disableBtn {
+  display: none;
+}
 #previewVideoBox #videoInformation {
   display: flex;
   justify-content: center;
@@ -431,7 +434,12 @@ a .btn:hover {
   }
 
   #previewVideoBox .previewWrap:last-of-type {
+    height: 100%;
     width: 100%;
+  }
+  #previewVideoBox #videoBtnsWrap .videoBtn {
+    color: #000;
+    text-decoration: underline;
   }
 }
 

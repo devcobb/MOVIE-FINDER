@@ -289,6 +289,9 @@ a{
                 text-decoration: underline;
             }
         }
+        .disableBtn{
+            display: none
+        }
     }
     #videoInformation{
         @include flexCentering(center, center);
@@ -328,7 +331,7 @@ a{
   }
 
 .searchVideosEmpty{
-    height: 0;;
+    height: 0;
     overflow: hidden; 
 }
 
@@ -418,7 +421,12 @@ a{
     }
     #previewVideoBox{
         .previewWrap:last-of-type{
+            height: 100%;
             width: 100%;
+        }
+        #videoBtnsWrap .videoBtn{
+            color: #000;
+            text-decoration: underline;
         }
     }
 }
