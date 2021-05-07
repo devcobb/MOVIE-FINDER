@@ -4,6 +4,10 @@ let data = {
 };
 
 (function init() {
+    showLoadingScreen();
+    window.onload = () => {
+        hideLoadingScreen();
+    }
     let bar = document.querySelector("#searchBar");
     let btn = document.querySelector("#searchForVideos");
 
@@ -115,7 +119,6 @@ function determineVideosAPI() {
     const sel = document.querySelector("#searchVideosForm select").value;
     let searchTerm = document.querySelector("#searchBar").value;
     
-    //Clear the box after previous searches
     document.querySelector("#videosWrap").innerHTML = "";
     sel === "YouTube" ? searchForYTVideos(searchTerm) : searchForVimeoVideos(searchTerm);
 }
@@ -198,7 +201,6 @@ function hideLoadingScreen(){
 }
 
 function previewVideo(e){
-    //Basic preperations
     let previewedVideo = null;
     const box = document.querySelector("#previewVideoBox");
 
