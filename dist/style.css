@@ -6,7 +6,8 @@
   font-family: Roboto-Condensed, sans-serif;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   min-height: 100%;
@@ -190,6 +191,10 @@ a .btn:hover {
   position: relative;
   margin: 2.5%;
   cursor: pointer;
+  transition: all 0.3s;
+}
+#searchVideos .video:hover {
+  transform: scale(1.2);
 }
 #searchVideos .video .videoTitle {
   background: #0a5a49;
@@ -200,10 +205,6 @@ a .btn:hover {
 #searchVideos .video img {
   max-width: 320px;
   max-height: 180px;
-  transition: all 0.3s;
-}
-#searchVideos .video img:hover {
-  opacity: 0.7;
 }
 #searchVideos .video::after {
   z-index: -1;
@@ -321,7 +322,8 @@ a .btn:hover {
 #previewVideoBox #videoInformation a {
   margin: 5% 0;
 }
-#previewVideoBox #videoInformation #videoTitle, #previewVideoBox #videoInformation #videoDescription {
+#previewVideoBox #videoInformation #videoTitle,
+#previewVideoBox #videoInformation #videoDescription {
   padding: 0 5%;
 }
 
@@ -429,7 +431,8 @@ a .btn:hover {
     height: 15%;
   }
 
-  #videoTitle, #videoDescription {
+  #videoTitle,
+#videoDescription {
     display: none;
   }
 
