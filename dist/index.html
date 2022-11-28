@@ -1,53 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
     <title>Video Finder - find videos from YouTube or Vimeo</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="shortcut icon" href="./media/favicon.png">
+    <link rel="stylesheet"
+          href="./style.css">
+    <link rel="shortcut icon"
+          href="./media/favicon.png">
 </head>
+
 <body class="showScroll">
-    <video id="bg" src="./media/bg.mp4" autoplay="autoplay" muted="muted" loop="loop"></video>
+    <video id="bg"
+           src="./media/bg.mp4"
+           autoplay="autoplay"
+           muted="muted"
+           loop="loop"></video>
     <div id="wrapper">
-        <div id="logo"></div>
-        <form autocomplete="off" id="searchVideosForm">
+        <div id="logo">
+            <img src="./media/logo.png" />
+        </div>
+        <form autocomplete="off"
+              id="searchVideosForm">
             <p id="searchBarBox">
-                <input id="searchBar" type="text" placeholder="Search for videos" />
+                <input id="searchBar"
+                       type="text"
+                       placeholder="Search for videos" />
                 <select>
                     <option>YouTube</option>
                     <option>Vimeo</option>
                 </select>
             </p>
             <p id="buttonsWrap">
-                <a href="#searchVideos"><button id="searchForVideos" class="btn">Search</button></a>
-                <a href="#"><input class="btn" type="reset" value="Reset" /></a>
+                <a href="#searchVideos"><button id="searchForVideos"
+                            class="btn">Search</button></a>
+                <a href="#"><input class="btn"
+                           type="reset"
+                           value="Reset" /></a>
             </p>
         </form>
     </div>
-    <div id="searchVideos" class="searchVideosEmpty">
-        <img id="wave" src="./media/wave.png">
+    <div id="searchVideos"
+         class="searchVideosEmpty">
+        <img id="wave"
+             src="./media/wave.png">
         <div id="videosWrap"></div>
     </div>
-    <div id="previewVideoBox" class="emptyPreviewVideoBox">
+    <div id="previewVideoBox"
+         class="emptyPreviewVideoBox">
         <div id="videoBox">
-            <iframe allow="fullscreen" src=""></iframe>
+            <iframe allow="fullscreen"
+                    src=""></iframe>
         </div>
         <div id="videoInformation">
             <div class="previewWrap">
-                <div id="videoTitle"><h2></h2></div>
-                <div id="videoDescription"><p></p></div>
+                <div id="videoTitle">
+                    <h2></h2>
+                </div>
+                <div id="videoDescription">
+                    <p></p>
+                </div>
             </div>
             <div class="previewWrap">
                 <a href="#"><button class="btn">Return to search screen</button></a>
                 <div id="videoBtnsWrap">
-                    <div class="videoBtn" data-action="prev">Previous video</div>
-                    <div class="videoBtn" data-action="next">Next video</div>
+                    <div class="videoBtn"
+                         data-action="prev">Previous video</div>
+                    <div class="videoBtn"
+                         data-action="next">Next video</div>
                 </div>
             </div>
         </div>
     </div>
     <script src="./main.js"></script>
 </body>
+
 </html>

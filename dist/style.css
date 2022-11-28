@@ -36,12 +36,7 @@ html {
   width: 100%;
 }
 #wrapper #logo {
-  background-image: url("./media/logo.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  min-width: 15%;
-  min-height: 30%;
+  margin: 5% 0 2.5% 0;
 }
 
 #searchVideosForm {
@@ -413,7 +408,11 @@ a .btn:hover {
 }
 @media screen and (max-width: 768px) {
   #wrapper #logo {
-    min-width: 55%;
+    text-align: center;
+    margin: 10% 0 5% 0;
+  }
+  #wrapper #logo img {
+    width: 75%;
   }
 
   #searchVideosForm {
